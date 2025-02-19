@@ -12,8 +12,8 @@
     <button onclick="updateAgentStatus('362020dd-398e-49d7-bd8d-cb727c6dcdff')">Change Agent Status</button>
 
     <script>
-        const INSTANCE_URL = "https://p3f-learn.my.connect.aws/ccp-v2/"; // Replace with your instance URL
-        const API_GATEWAY_URL = "https://t59n1onqlb.execute-api.us-east-1.amazonaws.com/dev"; // API Gateway URL
+        const INSTANCE_URL = "https://p3f-learn.my.connect.aws/ccp-v2/"; // Your Amazon Connect CCP URL
+        const API_GATEWAY_URL = "https://t59n1onqlb.execute-api.us-east-1.amazonaws.com/dev"; // Your API Gateway URL
 
         // Initialize Amazon Connect CCP
         window.onload = function () {
@@ -32,13 +32,15 @@
                 const response = await fetch(`${API_GATEWAY_URL}/change-status`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ statusId }),
+                    body: JSON.stringify({ statusId: statusId }), // Ensure the body is JSON
                 });
 
                 const data = await response.json();
                 console.log("Status Updated:", data);
+                alert("Agent status updated: " + JSON.stringify(data)); // Alert message on success
             } catch (error) {
                 console.error("Error updating agent status:", error);
+                alert("Failed to update agent status: " + error.message); // Alert message on failure
             }
         }
     </script>
