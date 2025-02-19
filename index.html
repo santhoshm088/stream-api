@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Connect CCP</title>
+    <script src="https://cdn.jsdelivr.net/npm/amazon-connect-streams@2.0.2"></script>
+</head>
+<body>
+    <h2>Amazon Connect CCP</h2>
+    <div id="ccp-container" style="width: 400px; height: 600px;"></div>
+    <button onclick="updateAgentStatus('362020dd-398e-49d7-bd8d-cb727c6dcdff')">Change Agent Status</button>
+
+    <script>
+        const INSTANCE_URL = "https://p3f-learn.my.connect.aws/ccp-v2/"; // Replace with your instance URL
+        const API_GATEWAY_URL = "https://t59n1onqlb.execute-api.us-east-1.amazonaws.com/dev"; // API Gateway URL
+
+        // Initialize Amazon Connect CCP
+        window.onload = function () {
+            window.connect.core.initCCP(document.getElementById("ccp-container"), {
+                ccpUrl: INSTANCE_URL,
+                loginPopup: true,
+                softphone: {
+                    allowFramedSoftphone: true,
+                },
+            });
+        };
+
+        // Function to update agent status
+        async function updateAgentStatus(statusId) {
+            try {
+                const response = await fetch(`${API_GATEWAY_URL}/update-agent-status`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ statusId }),
+                });
+
+                const data = await response.json();
+                console.log("Status Updated:", data);
+            } catch (error) {
+                console.error("Error updating agent status:", error);
+            }
+        }
+    </script>
+</body>
+</html>
