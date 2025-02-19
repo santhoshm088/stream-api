@@ -29,7 +29,7 @@
         // Function to update agent status
         async function updateAgentStatus(statusId) {
             try {
-                const response = await fetch(`${API_GATEWAY_URL}/update-agent-status`, {
+                const response = await fetch(`${API_GATEWAY_URL}/change-status`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ statusId }),
